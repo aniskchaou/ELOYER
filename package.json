@@ -6,19 +6,28 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --skip-plugins @vue/cli-plugin-eslint",
     "lint": "vue-cli-service lint",
-    "start": "node server.js"
+    "start": "node server.js",
+    "start:api": "node backend/server.js",
+    "test:e2e": "playwright test",
+    "test:e2e:report": "playwright show-report tests/playwright-report"
   },
   "engines": {
-    "node": "14.0"
+    "node": ">=14.0"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "chart.js": "^3.9.1",
     "core-js": "^3.6.5",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "express": "^4.17.1",
-    "path": "^0.12.7",
+    "pg": "^8.20.0",
     "vue": "^2.6.11",
-    "vue-router": "^3.4.9"
+    "vue-router": "^3.4.9",
+    "vuetify": "^2.7.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",

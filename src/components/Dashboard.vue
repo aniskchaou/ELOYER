@@ -1,125 +1,128 @@
 <template>
-  <div>
-    <div class="row">
-      <div class="col-xl-3 col-md-6">
-        <div class="card card-stats">
-          <!-- Card body -->
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">
-                  Rendez-vous
-                </h5>
-                <span class="h2 font-weight-bold mb-0">1</span>
-              </div>
-              <div class="col-auto">
-                <div
-                  class="icon icon-shape bg-gradient-red text-white rounded-circle shadow"
-                >
-                  <i class="ni ni-active-40"></i>
-                </div>
-              </div>
-            </div>
-            <p class="mt-3 mb-0 text-sm"></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-md-6">
-        <div class="card card-stats">
-          <!-- Card body -->
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">
-                  Affairs
-                </h5>
-                <span class="h2 font-weight-bold mb-0">2</span>
-              </div>
-              <div class="col-auto">
-                <div
-                  class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow"
-                >
-                  <i class="ni ni-chart-pie-35"></i>
-                </div>
-              </div>
-            </div>
-            <p class="mt-3 mb-0 text-sm"></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-md-6">
-        <div class="card card-stats">
-          <!-- Card body -->
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">
-                  Affairs archivés
-                </h5>
-                <span class="h2 font-weight-bold mb-0">1</span>
-              </div>
-              <div class="col-auto">
-                <div
-                  class="icon icon-shape bg-gradient-green text-white rounded-circle shadow"
-                >
-                  <i class="ni ni-money-coins"></i>
-                </div>
-              </div>
-            </div>
-            <p class="mt-3 mb-0 text-sm"></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-md-6">
-        <div class="card card-stats">
-          <!-- Card body -->
-          <div class="card-body">
-            <div class="row">
-              <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">
-                  Étude de cas
-                </h5>
-                <span class="h2 font-weight-bold mb-0">1</span>
-              </div>
-              <div class="col-auto">
-                <div
-                  class="icon icon-shape bg-gradient-info text-white rounded-circle shadow"
-                >
-                  <i class="ni ni-chart-bar-32"></i>
-                </div>
-              </div>
-            </div>
-            <p class="mt-3 mb-0 text-sm"></p>
-          </div>
-        </div>
-      </div>
-    </div>
+  <v-container>
+    <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
 
-    <div class="row">
-      <div class="col-md-12">
-        <Rendezvous />
-      </div>
+    <!-- Summary Widgets -->
+    <v-row class="mb-6">
+      <v-col cols="12" md="3">
+        <v-card class="pa-4" outlined>
+          <h2 class="text-lg font-semibold">Active Cases</h2>
+          <p class="text-blue-600 text-2xl font-bold">{{ activeCases }}</p>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="3">
+        <v-card class="pa-4" outlined>
+          <h2 class="text-lg font-semibold">Upcoming Hearings</h2>
+          <p class="text-purple-600 text-2xl font-bold">{{ upcomingHearings }}</p>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="3">
+        <v-card class="pa-4" outlined>
+          <h2 class="text-lg font-semibold">Pending Tasks</h2>
+          <p class="text-yellow-600 text-2xl font-bold">{{ pendingTasks }}</p>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="3">
+        <v-card class="pa-4" outlined>
+          <h2 class="text-lg font-semibold">Recent Payments</h2>
+          <p class="text-green-600 text-2xl font-bold">${{ recentPayments }}</p>
+        </v-card>
+      </v-col>
+    </v-row>
 
-      <div class="col-md-12">
-        <Task />
-      </div>
-    </div>
-  </div>
+    <!-- Charts Section -->
+    <v-row class="mb-6">
+      <v-col cols="12" md="6">
+        <v-card class="pa-4" outlined>
+          <h2 class="text-lg font-semibold mb-2">Task Progress</h2>
+          <canvas id="taskChart"></canvas>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="6">
+        <v-card class="pa-4" outlined>
+          <h2 class="text-lg font-semibold mb-2">Payment Trends</h2>
+          <canvas id="paymentChart"></canvas>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <!-- Activity Feed -->
+    <v-card outlined class="pa-4">
+      <h2 class="text-lg font-semibold mb-3">Recent Activity</h2>
+      <v-list dense>
+        <v-list-item v-for="(activity, i) in activities" :key="i">
+          <v-list-item-icon><v-icon>{{ activity.icon }}</v-icon></v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ activity.text }}</v-list-item-title>
+            <v-list-item-subtitle>{{ activity.date }}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
-import Rendezvous from "@/components/Rendezvous";
-import Task from "@/components/Task";
+import Chart from "chart.js/auto";
+
 export default {
   name: "Dashboard",
-  components: {
-    Rendezvous: Rendezvous,
-    Task: Task,
+  data() {
+    return {
+      activeCases: 24,
+      upcomingHearings: 5,
+      pendingTasks: 12,
+      recentPayments: 8200,
+      activities: [
+        { icon: "mdi-gavel", text: "New case added: Corporate Merger", date: "Sep 15, 2025" },
+        { icon: "mdi-cash", text: "Payment received from Jane Smith - $800", date: "Sep 14, 2025" },
+        { icon: "mdi-clipboard-check", text: "Task completed: File Appeal Document", date: "Sep 14, 2025" },
+        { icon: "mdi-calendar", text: "Hearing scheduled for TechCorp", date: "Sep 13, 2025" },
+      ]
+    };
   },
-  props: {},
+  mounted() {
+    this.renderTaskChart();
+    this.renderPaymentChart();
+  },
+  methods: {
+    renderTaskChart() {
+      const ctx = document.getElementById("taskChart");
+      new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: ["Completed", "Pending", "Overdue"],
+          datasets: [
+            {
+              data: [15, 8, 3],
+              backgroundColor: ["#22c55e", "#facc15", "#ef4444"]
+            }
+          ]
+        }
+      });
+    },
+    renderPaymentChart() {
+      const ctx = document.getElementById("paymentChart");
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["May", "Jun", "Jul", "Aug", "Sep"],
+          datasets: [
+            {
+              label: "Payments ($)",
+              data: [5000, 7000, 6500, 9000, 8200],
+              backgroundColor: "#3b82f6"
+            }
+          ]
+        }
+      });
+    }
+  }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h1 {
+  font-family: 'Poppins', sans-serif;
+}
 </style>

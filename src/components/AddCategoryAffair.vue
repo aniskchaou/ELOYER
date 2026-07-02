@@ -1,10 +1,10 @@
 <template>
  <div class="box-body">
                         <div class="form-group">
-                        	<div class="row">
+                            <div class="row">
                                 <div class="col-md-4">
                                     <label for="name" style="clear:both;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nom de catégorie </font></font></label>
-									<input type="text" name="name" value="" class="form-control">
+				                                    <input type="text" name="name" value="" class="form-control">
                                 </div>
                             </div>
                         </div>
